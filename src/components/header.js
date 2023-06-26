@@ -1,3 +1,5 @@
+import { createEvent } from "@testing-library/dom"
+
 const Header = (title, date, temp) => {
   // TASK 1
   // ---------------------
@@ -11,6 +13,25 @@ const Header = (title, date, temp) => {
   //    <span class="temp">{ temp }</span>
   //  </div>
   //
+
+  const header = document.createElement('div')
+  const documentDate = document.createElement('span')
+  const documentTitle = document.createElement('h1')
+  const currentTemp = document.createElement('span')
+
+  header.classList.add('header')
+  documentDate.classList.add('date')
+  currentTemp.classList.add('temp')
+
+  header.appendChild(documentDate)
+  header.appendChild(documentTitle)
+  header.appendChild(currentTemp)
+
+  documentDate.textContent = date
+  documentTitle.textContent = title
+  currentTemp.textContent = temp
+
+  return header
 }
 
 const headerAppender = (selector) => {
@@ -26,6 +47,7 @@ const headerAppender = (selector) => {
   // We are taking care of passing in the correct selector on line 16,
   // so all that you need to do is pass it into the querySelector method
   // for the tests to work!
+  document.querySelector(selector).appendChild(Header('BloomTech Times', 'June 26, 2023', '87°'))
 }
 
 export { Header, headerAppender }

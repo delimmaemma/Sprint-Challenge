@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,6 +19,32 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  const card = document.createElement('div')
+  const headline = document.createElement('div')
+  const author = document.createElement('div')
+  const imgContainer = document.createElement('div')
+  const img = document.createElement('img')
+  const by = document.createElement('span')
+
+  img.src = article.authorPhoto
+  img.alt = 'Photo of author'
+
+  card.classList.add('card')
+  headline.classList.add('headline')
+  author.classList.add('author')
+  imgContainer.classList.add('img-container')
+  
+  headline.textContent = article.headline
+  by.textContent = `By ${article.authorName}`
+
+  card.appendChild(headline)
+  card.appendChild(author)
+  author.appendChild(imgContainer)
+  author.appendChild(by)
+  imgContainer.appendChild(img)
+
+  return card
+
 }
 
 const cardAppender = (selector) => {
@@ -28,6 +56,36 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+  axios.get('http://localhost:5001/api/articles')
+       .then(res => {
+
+          const javascript = res.data.articles.javascript
+          const bootstrap = res.data.articles.bootstrap
+          const technology = res.data.articles.technology
+          const jquery = res.data.articles.jquery
+          const node = res.data.articles.node
+
+          for (let article of javascript) { //for...of loops are used for iterable items, such as arrays, objects, etc
+            const card = Card(article)
+            document.querySelector(selector).appendChild(card)
+          }
+          for (let article of bootstrap) {
+            const card = Card(article)
+            document.querySelector(selector).appendChild(card)
+          }
+          for (let article of technology) {
+            const card = Card(article)
+            document.querySelector(selector).appendChild(card)
+          }
+          for (let article of jquery) {
+            const card = Card(article)
+            document.querySelector(selector).appendChild(card)
+          }
+          for (let article of node) {
+            const card = Card(article)
+            document.querySelector(selector).appendChild(card)
+          }
+  })
 }
 
 export { Card, cardAppender }
